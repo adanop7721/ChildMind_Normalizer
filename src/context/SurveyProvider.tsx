@@ -5,25 +5,24 @@ import React, {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { type AdminStep, type AdminStepStatus, type Question } from "../types";
-import axios from "axios";
+
+import type { AdminStep, AdminStepStatus, Question } from "../types";
 
 interface SurveyProviderProps {
   children: React.ReactNode;
 }
 
 interface SurveyContextType {
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
+  survey: Question[];
+  setSurvey: Dispatch<SetStateAction<Question[]>>;
   step: AdminStep;
   setStep: Dispatch<SetStateAction<AdminStep>>;
   stepStatus: AdminStepStatus;
   setStepStatus: Dispatch<SetStateAction<AdminStepStatus>>;
-  survey: Question[];
-  setSurvey: Dispatch<SetStateAction<Question[]>>;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
   error: string | null;
   setError: Dispatch<SetStateAction<string | null>>;
-  loadSurvey: () => Promise<void>;
 }
 
 const SurveyContext = createContext<SurveyContextType>({
@@ -41,7 +40,6 @@ const SurveyContext = createContext<SurveyContextType>({
   setLoading: () => {},
   error: null,
   setError: () => {},
-  loadSurvey: async () => {},
 });
 
 const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
@@ -54,19 +52,6 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const loadSurvey = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const res = await axios.get("/api/questions");
-      setSurvey(res.data);
-    } catch (err: any) {
-      setError(err.message || "Failed to load survey");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <SurveyContext.Provider
@@ -81,7 +66,6 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
         setLoading,
         error,
         setError,
-        loadSurvey,
       }}
     >
       {children}

@@ -13,26 +13,9 @@ export const handlers = [
   }),
 
   http.post("/api/questions", async ({ request }) => {
-    const body = (await request.json()) as Omit<Question, "id">;
-    const newQuestion = { ...body, id: Date.now() };
-    questionsStore.push(newQuestion);
-    return Response.json(newQuestion, { status: 201 });
-  }),
-
-  http.put("/api/questions/:id", async ({ params, request }) => {
-    const id = Number(params.id);
-    const body = (await request.json()) as Omit<Question, "id">;
-    questionsStore = questionsStore.map((q) =>
-      q.id === id ? { ...q, ...body } : q
-    );
-    const updated = questionsStore.find((q) => q.id === id);
-    return Response.json(updated);
-  }),
-
-  http.delete("/api/questions/:id", ({ params }) => {
-    const id = Number(params.id);
-    questionsStore = questionsStore.filter((q) => q.id !== id);
-    return new Response(null, { status: 204 });
+    const body = (await request.json()) as Question[];
+    questionsStore = [...body];
+    return Response.json(questionsStore, { status: 200 });
   }),
 
   // NormalizationData CRUD

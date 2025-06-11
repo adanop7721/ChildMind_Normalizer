@@ -1,8 +1,10 @@
 import { Brain, Settings, BarChart3, CheckCircle } from "lucide-react";
 
+import SurveyStructure from "../containers/admin/survey_structure/SurveyStructure";
 import StepperIcon from "./StepperIcon";
 
 import { useSurveyContext } from "../context/SurveyProvider";
+
 import type { AdminStep } from "../types";
 
 const colorMap = {
@@ -41,7 +43,7 @@ const colorMap = {
 const stepKeys: AdminStep[] = ["questions", "subscale", "normalization"];
 
 const Stepper = () => {
-  const { setStep, stepStatus, setStepStatus } = useSurveyContext();
+  const { step, setStep, stepStatus, setStepStatus } = useSurveyContext();
 
   return (
     <>
@@ -69,6 +71,9 @@ const Stepper = () => {
               />
             ))}
           </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {step === "questions" && <SurveyStructure />}
         </div>
       </div>
     </>
