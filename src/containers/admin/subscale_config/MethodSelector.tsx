@@ -1,9 +1,9 @@
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 
 import type { CalculationType } from "../../../types";
 
 const MethodSelector = () => {
-  const { subscaleConfig, setSubscaleConfig } = useSurveyContext();
+  const { subscaleConfig, setSubscaleConfig } = useConfigContext();
 
   const options = [
     {

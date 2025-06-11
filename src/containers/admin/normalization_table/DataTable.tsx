@@ -5,7 +5,7 @@ import { Edit2, Save, Trash2, X } from "lucide-react";
 import InputField from "../../../components/InputField";
 import SelectionField from "../../../components/SelectionField";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import type { NormalizationData } from "../../../types";
 import ButtonIcon from "../../../components/ButtonIcon";
 
@@ -21,7 +21,7 @@ const DataTable = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editEntry, setEditEntry] = useState<NormalizationData | null>(null);
   const { normalizationData, setNormalizationData, setError } =
-    useSurveyContext();
+    useConfigContext();
 
   const handleInputChange = (
     field: keyof NormalizationData,

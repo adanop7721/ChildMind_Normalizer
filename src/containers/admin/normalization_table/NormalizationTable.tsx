@@ -4,7 +4,7 @@ import { BarChart3, Home, LoaderCircleIcon } from "lucide-react";
 // import NormalizationManager from "./NormalizationManager";
 import Button from "../../../components/Button";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import { useNavigate } from "react-router-dom";
 import { getStepStatus } from "../../../utils/stepStatus";
 import { useEffect } from "react";
@@ -22,7 +22,7 @@ const NormalizationTable = () => {
     setLoading,
     error,
     setError,
-  } = useSurveyContext();
+  } = useConfigContext();
 
   const loadNormalizationData = async () => {
     try {
@@ -37,20 +37,16 @@ const NormalizationTable = () => {
     }
   };
 
-  const handleSaveAndHome = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const res = await axios.post("/api/normalization", normalizationData);
-      setNormalizationData(res.data);
-      navigate("/");
-      // setStep("normalization");
-      // setStepStatus(getStepStatus("normalization", ["questions", "subscale"]));
-    } catch (err: any) {
-      setError(err.message || "Failed to load survey");
-    } finally {
-      setLoading(false);
-    }
+  const handleConfigComplete = () => {
+    setStep("questions");
+    setStepStatus({
+      questions: "completed",
+      subscale: "completed",
+      normalization: "completed",
+    });
+    setLoading(false);
+    setError(null);
+    navigate("/");
   };
 
   const handleBack = () => {
@@ -105,7 +101,7 @@ const NormalizationTable = () => {
           variant="secondary"
           icon={<Home className="w-4 h-4" />}
           disabled={normalizationData.length === 0}
-          onClick={handleSaveAndHome}
+          onClick={handleConfigComplete}
         >
           {normalizationData.length > 0
             ? "Finish Setup"

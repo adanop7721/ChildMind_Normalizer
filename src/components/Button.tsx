@@ -29,6 +29,7 @@ const Button: FC<ButtonProps> = ({
     className={`rounded-lg px-4 py-2 flex items-center space-x-2 font-medium transition-colors disabled:opacity-50 ${
       disabled ? disabledClass : variantMap[variant]
     } ${className}`}
+    disabled={disabled}
     {...props}
   >
     {icon && <span>{icon}</span>}

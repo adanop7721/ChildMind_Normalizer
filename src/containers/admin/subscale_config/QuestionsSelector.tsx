@@ -1,7 +1,7 @@
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 
 const QuestionsSelector = () => {
-  const { survey, subscaleConfig, setSubscaleConfig } = useSurveyContext();
+  const { survey, subscaleConfig, setSubscaleConfig } = useConfigContext();
 
   const handleCheckboxChange = (questionId: number, checked: boolean) => {
     setSubscaleConfig((prev) => ({

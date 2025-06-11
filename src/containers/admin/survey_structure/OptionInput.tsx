@@ -2,7 +2,7 @@ import { Trash2 } from "lucide-react";
 
 import ButtonIcon from "../../../components/ButtonIcon";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import type { QuestionOption } from "../../../types";
 
 interface OptionInputProps {
@@ -18,7 +18,7 @@ const OptionInput = ({
   questionId,
   totalOptions,
 }: OptionInputProps) => {
-  const { survey, setSurvey } = useSurveyContext();
+  const { survey, setSurvey } = useConfigContext();
 
   const handleOptionChange = (
     questionId: number,

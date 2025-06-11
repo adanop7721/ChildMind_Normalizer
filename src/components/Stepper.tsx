@@ -1,15 +1,16 @@
 import { useState } from "react";
+import axios from "axios";
 import { Brain, Settings, BarChart3, CheckCircle } from "lucide-react";
 
 import SurveyStructure from "../containers/admin/survey_structure/SurveyStructure";
+import SubscaleConfig from "../containers/admin/subscale_config/SubscaleConfig";
+import NormalizationTable from "../containers/admin/normalization_table/NormalizationTable";
 import StepperIcon from "./StepperIcon";
+import UnsavedDialog from "./UnsavedDialog";
 
-import { useSurveyContext } from "../context/SurveyProvider";
+import { useConfigContext } from "../context/ConfigProvider";
 
 import type { AdminStep } from "../types";
-import SubscaleConfig from "../containers/admin/subscale_config/SubscaleConfig";
-import UnsavedDialog from "./UnsavedDialog";
-import NormalizationTable from "../containers/admin/normalization_table/NormalizationTable";
 
 const colorMap = {
   current: {
@@ -60,12 +61,14 @@ const Stepper = () => {
   const {
     survey,
     setSurvey,
+    subscaleConfig,
     step,
     setStep,
     stepStatus,
     setStepStatus,
     lastSavedSurvey,
-  } = useSurveyContext();
+    setError,
+  } = useConfigContext();
 
   const [pendingStep, setPendingStep] = useState<AdminStep | null>(null);
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
@@ -81,11 +84,19 @@ const Stepper = () => {
     }
     setStep(key);
     if (key === "subscale") {
-      setStepStatus({
-        questions: "completed",
-        subscale: "current",
-        normalization: "enabled",
-      });
+      if (subscaleConfig.question_ids.length > 0) {
+        setStepStatus({
+          questions: "completed",
+          subscale: "current",
+          normalization: "enabled",
+        });
+      } else {
+        setStepStatus({
+          questions: "completed",
+          subscale: "current",
+          normalization: "disabled",
+        });
+      }
     } else if (key === "questions") {
       setStepStatus({
         questions: "current",
@@ -121,23 +132,30 @@ const Stepper = () => {
   };
 
   const handleSaveAndNavigate = async () => {
-    setShowUnsavedModal(false);
-    if (pendingStep) {
-      setStep(pendingStep);
-      if (pendingStep === "subscale") {
-        setStepStatus({
-          questions: "completed",
-          subscale: "current",
-          normalization: "enabled",
-        });
-      } else if (pendingStep === "normalization") {
-        setStepStatus({
-          questions: "completed",
-          subscale: "completed",
-          normalization: "current",
-        });
+    try {
+      const res = await axios.post("/api/questions", survey);
+      setSurvey(res.data);
+      lastSavedSurvey.current = JSON.stringify(res.data);
+      setShowUnsavedModal(false);
+      if (pendingStep) {
+        setStep(pendingStep);
+        if (pendingStep === "subscale") {
+          setStepStatus({
+            questions: "completed",
+            subscale: "current",
+            normalization: "enabled",
+          });
+        } else if (pendingStep === "normalization") {
+          setStepStatus({
+            questions: "completed",
+            subscale: "completed",
+            normalization: "current",
+          });
+        }
+        setPendingStep(null);
       }
-      setPendingStep(null);
+    } catch (err: any) {
+      setError(err.message || "Failed to save survey");
     }
   };
 

@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
   type Dispatch,
+  type FC,
   type RefObject,
   type SetStateAction,
 } from "react";
@@ -16,11 +17,11 @@ import type {
   SubscaleConfig,
 } from "../types";
 
-interface SurveyProviderProps {
+interface ConfigProviderProps {
   children: React.ReactNode;
 }
 
-interface SurveyContextType {
+interface ConfigContextType {
   survey: Question[];
   setSurvey: Dispatch<SetStateAction<Question[]>>;
   step: AdminStep;
@@ -38,7 +39,7 @@ interface SurveyContextType {
   setNormalizationData: Dispatch<SetStateAction<NormalizationData[]>>;
 }
 
-const SurveyContext = createContext<SurveyContextType>({
+const ConfigContext = createContext<ConfigContextType>({
   survey: [],
   setSurvey: () => {},
   step: "questions",
@@ -63,7 +64,7 @@ const SurveyContext = createContext<SurveyContextType>({
   setNormalizationData: () => {},
 });
 
-const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
+const ConfigProvider: FC<ConfigProviderProps> = ({ children }) => {
   const [survey, setSurvey] = useState<Question[]>([]);
   const [step, setStep] = useState<AdminStep>("questions");
   const [stepStatus, setStepStatus] = useState<AdminStepStatus>({
@@ -83,7 +84,7 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
   >([]);
 
   return (
-    <SurveyContext.Provider
+    <ConfigContext.Provider
       value={{
         survey,
         setSurvey,
@@ -103,10 +104,10 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
       }}
     >
       {children}
-    </SurveyContext.Provider>
+    </ConfigContext.Provider>
   );
 };
 
-export const useSurveyContext = () => useContext(SurveyContext);
+export const useConfigContext = () => useContext(ConfigContext);
 
-export default SurveyProvider;
+export default ConfigProvider;

@@ -5,10 +5,10 @@ import EntryForm from "./EntryForm";
 import DataTable from "./DataTable";
 import Button from "../../../components/Button";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 
 const NormalizationTableCard = () => {
-  const { normalizationData } = useSurveyContext();
+  const { normalizationData } = useConfigContext();
   const [isCreating, setIsCreating] = useState(false);
 
   const onCancelCreate = () => {

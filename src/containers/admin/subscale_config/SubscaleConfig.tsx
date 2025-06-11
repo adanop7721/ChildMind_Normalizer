@@ -5,7 +5,7 @@ import { Database, Home, LoaderCircleIcon } from "lucide-react";
 import SubscaleConfigCard from "./SubscaleConfigCard";
 import ErrorMessage from "../../../components/ErrorMessage";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import Button from "../../../components/Button";
 import { getStepStatus } from "../../../utils/stepStatus";
 
@@ -19,7 +19,8 @@ const SubscaleConfig = () => {
     setLoading,
     error,
     setError,
-  } = useSurveyContext();
+    setNormalizationEnabled,
+  } = useConfigContext();
 
   const loadSubscaleConfig = async () => {
     try {
@@ -27,6 +28,13 @@ const SubscaleConfig = () => {
       setError(null);
       const res = await axios.get("/api/subscale");
       setSubscaleConfig(res.data);
+      if (res.data.question_ids.length > 0) {
+        setStepStatus({
+          questions: "completed",
+          subscale: "current",
+          normalization: "enabled",
+        });
+      }
     } catch (err: any) {
       setError(err.message || "Failed to load subscale configuration");
     } finally {
@@ -42,6 +50,7 @@ const SubscaleConfig = () => {
       setSubscaleConfig(res.data);
       setStep("normalization");
       setStepStatus(getStepStatus("normalization", ["questions", "subscale"]));
+      setNormalizationEnabled(true);
     } catch (err: any) {
       setError(err.message || "Failed to load subscale configuration");
     } finally {

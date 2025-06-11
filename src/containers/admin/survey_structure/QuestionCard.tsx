@@ -4,7 +4,7 @@ import { Trash2, Plus, ChevronDown, ChevronUp } from "lucide-react";
 import OptionInput from "./OptionInput";
 import ButtonIcon from "../../../components/ButtonIcon";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import type { Question } from "../../../types";
 
 interface QuestionCardProps {
@@ -14,7 +14,7 @@ interface QuestionCardProps {
 
 const QuestionCard = ({ question, questionIndex }: QuestionCardProps) => {
   const [showOptions, setShowOptions] = useState(false);
-  const { survey, setSurvey } = useSurveyContext();
+  const { survey, setSurvey } = useConfigContext();
 
   const handleDeleteQuestion = (questionId: number) => {
     setSurvey(survey.filter((question) => question.id !== questionId));

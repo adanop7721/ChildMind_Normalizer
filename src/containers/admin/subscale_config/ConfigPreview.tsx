@@ -1,8 +1,8 @@
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import { getScoreRange } from "../../../utils/scoreRange";
 
 const ConfigPreview = () => {
-  const { survey, subscaleConfig } = useSurveyContext();
+  const { survey, subscaleConfig } = useConfigContext();
   const { min, max, label } = getScoreRange(
     survey,
     subscaleConfig.question_ids,

@@ -6,7 +6,7 @@ import InputField from "../../../components/InputField";
 import SelectionField from "../../../components/SelectionField";
 import Button from "../../../components/Button";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import type { NormalizationData } from "../../../types";
 
 interface EntryFormProps {
@@ -22,7 +22,7 @@ const EntryForm: FC<EntryFormProps> = ({ onCancelCreate }) => {
     normalized_score: 37,
   });
 
-  const { setNormalizationData, setError } = useSurveyContext();
+  const { setNormalizationData, setError } = useConfigContext();
 
   const handleSaveNewEntry = async () => {
     try {

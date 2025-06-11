@@ -8,7 +8,7 @@ import Button from "../../../components/Button";
 import UnsavedDialog from "../../../components/UnsavedDialog";
 import ErrorMessage from "../../../components/ErrorMessage";
 
-import { useSurveyContext } from "../../../context/SurveyProvider";
+import { useConfigContext } from "../../../context/ConfigProvider";
 import { getStepStatus } from "../../../utils/stepStatus";
 
 const SurveyStructure = () => {
@@ -24,7 +24,7 @@ const SurveyStructure = () => {
     error,
     setError,
     lastSavedSurvey,
-  } = useSurveyContext();
+  } = useConfigContext();
 
   const loadSurvey = async () => {
     try {
@@ -33,6 +33,13 @@ const SurveyStructure = () => {
       const res = await axios.get("/api/questions");
       setSurvey(res.data);
       lastSavedSurvey.current = JSON.stringify(res.data);
+      if (res.data.length > 0) {
+        setStepStatus({
+          questions: "current",
+          subscale: "enabled",
+          normalization: "disabled",
+        });
+      }
     } catch (err: any) {
       setError(err.message || "Failed to load survey");
     } finally {
