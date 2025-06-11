@@ -1,6 +1,6 @@
 export type AdminStep = "questions" | "subscale" | "normalization";
 
-export type stepStatus = "current" | "completed" | "disabled";
+export type stepStatus = "current" | "completed" | "enabled" | "disabled";
 
 export interface AdminStepStatus {
   questions: stepStatus;
@@ -24,4 +24,11 @@ export interface NormalizationData {
   gender: string;
   raw_score: number;
   normalized_score: number;
+}
+
+export type CalculationType = "sum" | "average";
+
+export interface SubscaleConfig {
+  question_ids: number[];
+  calculation_type: CalculationType;
 }

@@ -1,12 +1,19 @@
 import React, {
   createContext,
   useContext,
+  useRef,
   useState,
   type Dispatch,
+  type RefObject,
   type SetStateAction,
 } from "react";
 
-import type { AdminStep, AdminStepStatus, Question } from "../types";
+import type {
+  AdminStep,
+  AdminStepStatus,
+  Question,
+  SubscaleConfig,
+} from "../types";
 
 interface SurveyProviderProps {
   children: React.ReactNode;
@@ -23,6 +30,9 @@ interface SurveyContextType {
   setLoading: Dispatch<SetStateAction<boolean>>;
   error: string | null;
   setError: Dispatch<SetStateAction<string | null>>;
+  lastSavedSurvey: RefObject<string>;
+  subscaleConfig: SubscaleConfig;
+  setSubscaleConfig: Dispatch<SetStateAction<SubscaleConfig>>;
 }
 
 const SurveyContext = createContext<SurveyContextType>({
@@ -40,6 +50,12 @@ const SurveyContext = createContext<SurveyContextType>({
   setLoading: () => {},
   error: null,
   setError: () => {},
+  lastSavedSurvey: { current: "" },
+  subscaleConfig: {
+    question_ids: [],
+    calculation_type: "sum",
+  },
+  setSubscaleConfig: () => {},
 });
 
 const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
@@ -52,6 +68,11 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const lastSavedSurvey = useRef<string>("");
+  const [subscaleConfig, setSubscaleConfig] = useState<SubscaleConfig>({
+    question_ids: [],
+    calculation_type: "sum",
+  });
 
   return (
     <SurveyContext.Provider
@@ -66,6 +87,9 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
         setLoading,
         error,
         setError,
+        lastSavedSurvey,
+        subscaleConfig,
+        setSubscaleConfig,
       }}
     >
       {children}

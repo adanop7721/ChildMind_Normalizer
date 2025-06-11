@@ -1,9 +1,13 @@
 import { http } from "msw";
+
 import { questions } from "./data/surveyQuestions";
 import { normalizationData } from "./data/normalizationData";
-import type { NormalizationData, Question } from "../types";
+import { subscaleConfig } from "./data/subscaleConfig";
+
+import type { NormalizationData, Question, SubscaleConfig } from "../types";
 
 let questionsStore = [...questions];
+let subscaleConfigStore = { ...subscaleConfig };
 let normalizationStore = [...normalizationData];
 
 export const handlers = [
@@ -16,6 +20,17 @@ export const handlers = [
     const body = (await request.json()) as Question[];
     questionsStore = [...body];
     return Response.json(questionsStore, { status: 200 });
+  }),
+
+  // Subscale Config CRUD
+  http.get("/api/subscale", () => {
+    return Response.json(subscaleConfigStore);
+  }),
+
+  http.post("/api/subscale", async ({ request }) => {
+    const body = (await request.json()) as SubscaleConfig;
+    subscaleConfigStore = { ...body };
+    return Response.json(subscaleConfigStore, { status: 200 });
   }),
 
   // NormalizationData CRUD

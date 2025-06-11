@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BarChart3, Brain, LoaderCircleIcon, Save } from "lucide-react";
 
@@ -9,13 +9,22 @@ import UnsavedDialog from "../../../components/UnsavedDialog";
 import ErrorMessage from "../../../components/ErrorMessage";
 
 import { useSurveyContext } from "../../../context/SurveyProvider";
+import { getStepStatus } from "../../../utils/stepStatus";
 
 const SurveyStructure = () => {
   const [saving, setSaving] = useState(false);
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
-  const { survey, setStep, setSurvey, loading, setLoading, error, setError } =
-    useSurveyContext();
-  const lastSavedSurvey = useRef<string>("");
+  const {
+    survey,
+    setSurvey,
+    setStep,
+    setStepStatus,
+    loading,
+    setLoading,
+    error,
+    setError,
+    lastSavedSurvey,
+  } = useSurveyContext();
 
   const loadSurvey = async () => {
     try {
@@ -23,6 +32,7 @@ const SurveyStructure = () => {
       setError(null);
       const res = await axios.get("/api/questions");
       setSurvey(res.data);
+      lastSavedSurvey.current = JSON.stringify(res.data);
     } catch (err: any) {
       setError(err.message || "Failed to load survey");
     } finally {
@@ -150,17 +160,24 @@ const SurveyStructure = () => {
       return;
     }
     setStep("subscale");
+    setStepStatus(getStepStatus("subscale", ["questions"]));
   };
 
   const handleAbandon = () => {
+    if (lastSavedSurvey.current) {
+      setSurvey(JSON.parse(lastSavedSurvey.current));
+      localStorage.setItem("surveyDraft", lastSavedSurvey.current);
+    }
     setShowUnsavedModal(false);
     setStep("subscale");
+    setStepStatus(getStepStatus("subscale", ["questions"]));
   };
 
   const handleSaveAndNavigate = async () => {
     await handleSaveSurvey();
     setShowUnsavedModal(false);
     setStep("subscale");
+    setStepStatus(getStepStatus("subscale", ["questions"]));
   };
 
   // Save draft on every change
