@@ -18,17 +18,17 @@ export interface Question {
   options: QuestionOption[];
 }
 
+export type CalculationType = "sum" | "average";
+
+export interface SubscaleConfig {
+  question_ids: number[];
+  calculation_type: CalculationType;
+}
+
 export interface NormalizationData {
   id: number;
   age: number;
   gender: string;
   raw_score: number;
   normalized_score: number;
-}
-
-export type CalculationType = "sum" | "average";
-
-export interface SubscaleConfig {
-  question_ids: number[];
-  calculation_type: CalculationType;
 }

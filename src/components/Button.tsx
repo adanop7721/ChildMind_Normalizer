@@ -1,15 +1,16 @@
 import React, { type FC } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "danger" | "back";
+  variant?: "primary" | "secondary" | "create" | "danger" | "back";
   icon?: React.ReactNode;
   disabled?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const variantMap = {
   primary: "bg-blue-600 hover:bg-blue-700 text-white",
   secondary: "bg-green-600 hover:bg-green-700 text-white",
+  create: "bg-purple-600 text-white hover:bg-purple-700",
   danger: "bg-red-600 hover:bg-red-700 text-white",
   back: "bg-gray-600 text-white hover:bg-gray-700",
 };

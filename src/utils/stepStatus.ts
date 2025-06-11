@@ -21,6 +21,11 @@ export const getStepStatus = (
         : currentStep === "normalization"
         ? "enabled"
         : "disabled",
-    normalization: currentStep === "normalization" ? "current" : "disabled",
+    normalization:
+      currentStep === "normalization"
+        ? "current"
+        : completedSteps.includes("subscale")
+        ? "enabled"
+        : "disabled",
   };
 };

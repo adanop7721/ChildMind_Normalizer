@@ -56,88 +56,6 @@ const SurveyStructure = () => {
     }
   };
 
-  const handleDeleteQuestion = (questionId: number) => {
-    if (survey) {
-      setSurvey(survey.filter((question) => question.id !== questionId));
-    }
-  };
-
-  const handleQuestionChange = (
-    questionId: number,
-    field: "text",
-    value: string
-  ) => {
-    if (survey) {
-      const updatedQuestions = survey.map((question) => {
-        if (question.id === questionId) {
-          return { ...question, [field]: value };
-        }
-        return question;
-      });
-      setSurvey(updatedQuestions);
-    }
-  };
-
-  const handleAddOption = (questionId: number) => {
-    if (survey) {
-      const updatedQuestions = survey.map((question) => {
-        if (question.id === questionId) {
-          return {
-            ...question,
-            options: [
-              ...question.options,
-              { text: "New option", value: question.options.length },
-            ],
-          };
-        }
-        return question;
-      });
-      setSurvey(updatedQuestions);
-    }
-  };
-
-  const handleOptionChange = (
-    questionId: number,
-    optionIndex: number,
-    field: "text" | "value",
-    value: string
-  ) => {
-    if (survey) {
-      const updatedQuestions = survey.map((question) => {
-        if (question.id === questionId) {
-          return {
-            ...question,
-            options: question.options.map((option, index) => {
-              if (index === optionIndex) {
-                return { ...option, [field]: value };
-              }
-              return option;
-            }),
-          };
-        }
-        return question;
-      });
-      setSurvey(updatedQuestions);
-    }
-  };
-
-  const handleDeleteOption = (questionId: number, optionIndex: number) => {
-    if (survey) {
-      const updatedQuestions = survey.map((question) => {
-        if (question.id === questionId) {
-          return {
-            ...question,
-            options: question.options.filter(
-              (_, index) => index !== optionIndex
-            ),
-          };
-        }
-        return question;
-      });
-      setSurvey(updatedQuestions);
-    }
-  };
-
   const handleSaveSurvey = async () => {
     if (survey) {
       setSaving(true);
@@ -237,7 +155,7 @@ const SurveyStructure = () => {
         </Button>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 max-h-[500px] overflow-y-auto">
         {survey.length === 0 ? (
           <EmptySurveyPlaceholder />
         ) : (
@@ -246,13 +164,6 @@ const SurveyStructure = () => {
               key={question.id}
               question={question}
               questionIndex={questionIndex}
-              onDelete={handleDeleteQuestion}
-              onTextChange={(id, value) =>
-                handleQuestionChange(id, "text", value)
-              }
-              onAddOption={handleAddOption}
-              onOptionChange={handleOptionChange}
-              onDeleteOption={handleDeleteOption}
             />
           ))
         )}

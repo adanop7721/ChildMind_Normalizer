@@ -11,6 +11,7 @@ import React, {
 import type {
   AdminStep,
   AdminStepStatus,
+  NormalizationData,
   Question,
   SubscaleConfig,
 } from "../types";
@@ -33,6 +34,8 @@ interface SurveyContextType {
   lastSavedSurvey: RefObject<string>;
   subscaleConfig: SubscaleConfig;
   setSubscaleConfig: Dispatch<SetStateAction<SubscaleConfig>>;
+  normalizationData: NormalizationData[];
+  setNormalizationData: Dispatch<SetStateAction<NormalizationData[]>>;
 }
 
 const SurveyContext = createContext<SurveyContextType>({
@@ -56,6 +59,8 @@ const SurveyContext = createContext<SurveyContextType>({
     calculation_type: "sum",
   },
   setSubscaleConfig: () => {},
+  normalizationData: [],
+  setNormalizationData: () => {},
 });
 
 const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
@@ -73,6 +78,9 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
     question_ids: [],
     calculation_type: "sum",
   });
+  const [normalizationData, setNormalizationData] = useState<
+    NormalizationData[]
+  >([]);
 
   return (
     <SurveyContext.Provider
@@ -90,6 +98,8 @@ const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
         lastSavedSurvey,
         subscaleConfig,
         setSubscaleConfig,
+        normalizationData,
+        setNormalizationData,
       }}
     >
       {children}

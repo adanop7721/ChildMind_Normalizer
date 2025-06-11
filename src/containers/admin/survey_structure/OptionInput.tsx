@@ -1,5 +1,8 @@
 import { Trash2 } from "lucide-react";
 
+import ButtonIcon from "../../../components/ButtonIcon";
+
+import { useSurveyContext } from "../../../context/SurveyProvider";
 import type { QuestionOption } from "../../../types";
 
 interface OptionInputProps {
@@ -7,13 +10,6 @@ interface OptionInputProps {
   optionIndex: number;
   questionId: number;
   totalOptions: number;
-  onOptionChange: (
-    questionId: number,
-    optionIndex: number,
-    field: "text" | "value",
-    value: string
-  ) => void;
-  onDeleteOption: (questionId: number, optionIndex: number) => void;
 }
 
 const OptionInput = ({
@@ -21,40 +17,82 @@ const OptionInput = ({
   optionIndex,
   questionId,
   totalOptions,
-  onOptionChange,
-  onDeleteOption,
-}: OptionInputProps) => (
-  <div className="flex items-center space-x-2">
-    <input
-      type="text"
-      value={option.text}
-      onChange={(e) =>
-        onOptionChange(questionId, optionIndex, "text", e.target.value)
-      }
-      className="flex-1 border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-      placeholder="Option text"
-    />
-    <div className="flex items-center space-x-1">
-      <span className="text-sm text-gray-600">Points:</span>
+}: OptionInputProps) => {
+  const { survey, setSurvey } = useSurveyContext();
+
+  const handleOptionChange = (
+    questionId: number,
+    optionIndex: number,
+    field: "text" | "value",
+    value: string
+  ) => {
+    if (survey) {
+      const updatedQuestions = survey.map((question) => {
+        if (question.id === questionId) {
+          return {
+            ...question,
+            options: question.options.map((option, index) => {
+              if (index === optionIndex) {
+                return { ...option, [field]: value };
+              }
+              return option;
+            }),
+          };
+        }
+        return question;
+      });
+      setSurvey(updatedQuestions);
+    }
+  };
+
+  const handleDeleteOption = (questionId: number, optionIndex: number) => {
+    if (survey) {
+      const updatedQuestions = survey.map((question) => {
+        if (question.id === questionId) {
+          return {
+            ...question,
+            options: question.options.filter(
+              (_, index) => index !== optionIndex
+            ),
+          };
+        }
+        return question;
+      });
+      setSurvey(updatedQuestions);
+    }
+  };
+  return (
+    <div className="flex items-center space-x-2">
       <input
         type="text"
-        value={option.value}
+        value={option.text}
         onChange={(e) =>
-          onOptionChange(questionId, optionIndex, "value", e.target.value)
+          handleOptionChange(questionId, optionIndex, "text", e.target.value)
         }
-        className="w-16 border border-gray-300 rounded px-2 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+        className="flex-1 border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+        placeholder="Option text"
       />
+      <div className="flex items-center space-x-1">
+        <span className="text-sm text-gray-600">Points:</span>
+        <input
+          type="text"
+          value={option.value}
+          onChange={(e) =>
+            handleOptionChange(questionId, optionIndex, "value", e.target.value)
+          }
+          className="w-16 border border-gray-300 rounded px-2 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+        />
+      </div>
+      {totalOptions > 1 && (
+        <ButtonIcon
+          icon={<Trash2 className="w-4 h-4" />}
+          color="red"
+          onClick={() => handleDeleteOption(questionId, optionIndex)}
+          title="Delete Question"
+        />
+      )}
     </div>
-    {totalOptions > 1 && (
-      <button
-        onClick={() => onDeleteOption(questionId, optionIndex)}
-        className="text-red-600 hover:text-red-700"
-        title="Delete Option"
-      >
-        <Trash2 className="w-4 h-4" />
-      </button>
-    )}
-  </div>
-);
+  );
+};
 
 export default OptionInput;

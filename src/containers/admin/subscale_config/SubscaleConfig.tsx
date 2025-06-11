@@ -28,7 +28,7 @@ const SubscaleConfig = () => {
       const res = await axios.get("/api/subscale");
       setSubscaleConfig(res.data);
     } catch (err: any) {
-      setError(err.message || "Failed to load survey");
+      setError(err.message || "Failed to load subscale configuration");
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ const SubscaleConfig = () => {
       setStep("normalization");
       setStepStatus(getStepStatus("normalization", ["questions", "subscale"]));
     } catch (err: any) {
-      setError(err.message || "Failed to load survey");
+      setError(err.message || "Failed to load subscale configuration");
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ const SubscaleConfig = () => {
         normalization: "disabled",
       });
     } catch (err: any) {
-      setError(err.message || "Failed to load survey");
+      setError(err.message || "Failed to load subscale configuration");
     } finally {
       setLoading(false);
     }
@@ -112,6 +112,7 @@ const SubscaleConfig = () => {
           </Button>
 
           <Button
+            variant="secondary"
             icon={<Database className="w-4 h-4" />}
             disabled={subscaleConfig.question_ids.length === 0}
             onClick={handleSaveAndNavigate}

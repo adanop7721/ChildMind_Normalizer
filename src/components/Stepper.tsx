@@ -9,7 +9,7 @@ import { useSurveyContext } from "../context/SurveyProvider";
 import type { AdminStep } from "../types";
 import SubscaleConfig from "../containers/admin/subscale_config/SubscaleConfig";
 import UnsavedDialog from "./UnsavedDialog";
-import NormalizationTable from "../containers/admin/NormalizationTable";
+import NormalizationTable from "../containers/admin/normalization_table/NormalizationTable";
 
 const colorMap = {
   current: {

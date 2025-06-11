@@ -42,7 +42,7 @@ export const handlers = [
     const body = (await request.json()) as Omit<NormalizationData, "id">;
     const newNorm = { ...body, id: Date.now() };
     normalizationStore.push(newNorm);
-    return Response.json(newNorm, { status: 201 });
+    return Response.json(normalizationStore, { status: 201 });
   }),
 
   http.put("/api/normalization/:id", async ({ params, request }) => {
