@@ -1,4 +1,5 @@
 import { useConfigContext } from "../../../context/ConfigProvider";
+
 import { getScoreRange } from "../../../utils/scoreRange";
 
 const ConfigPreview = () => {

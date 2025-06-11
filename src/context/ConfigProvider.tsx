@@ -24,6 +24,10 @@ interface ConfigProviderProps {
 interface ConfigContextType {
   survey: Question[];
   setSurvey: Dispatch<SetStateAction<Question[]>>;
+  subscaleConfig: SubscaleConfig;
+  setSubscaleConfig: Dispatch<SetStateAction<SubscaleConfig>>;
+  normalizationData: NormalizationData[];
+  setNormalizationData: Dispatch<SetStateAction<NormalizationData[]>>;
   step: AdminStep;
   setStep: Dispatch<SetStateAction<AdminStep>>;
   stepStatus: AdminStepStatus;
@@ -33,15 +37,18 @@ interface ConfigContextType {
   error: string | null;
   setError: Dispatch<SetStateAction<string | null>>;
   lastSavedSurvey: RefObject<string>;
-  subscaleConfig: SubscaleConfig;
-  setSubscaleConfig: Dispatch<SetStateAction<SubscaleConfig>>;
-  normalizationData: NormalizationData[];
-  setNormalizationData: Dispatch<SetStateAction<NormalizationData[]>>;
 }
 
 const ConfigContext = createContext<ConfigContextType>({
   survey: [],
   setSurvey: () => {},
+  subscaleConfig: {
+    question_ids: [],
+    calculation_type: "sum",
+  },
+  setSubscaleConfig: () => {},
+  normalizationData: [],
+  setNormalizationData: () => {},
   step: "questions",
   setStep: () => {},
   stepStatus: {
@@ -55,13 +62,6 @@ const ConfigContext = createContext<ConfigContextType>({
   error: null,
   setError: () => {},
   lastSavedSurvey: { current: "" },
-  subscaleConfig: {
-    question_ids: [],
-    calculation_type: "sum",
-  },
-  setSubscaleConfig: () => {},
-  normalizationData: [],
-  setNormalizationData: () => {},
 });
 
 const ConfigProvider: FC<ConfigProviderProps> = ({ children }) => {
@@ -88,6 +88,10 @@ const ConfigProvider: FC<ConfigProviderProps> = ({ children }) => {
       value={{
         survey,
         setSurvey,
+        subscaleConfig,
+        setSubscaleConfig,
+        normalizationData,
+        setNormalizationData,
         step,
         setStep,
         stepStatus,
@@ -97,10 +101,6 @@ const ConfigProvider: FC<ConfigProviderProps> = ({ children }) => {
         error,
         setError,
         lastSavedSurvey,
-        subscaleConfig,
-        setSubscaleConfig,
-        normalizationData,
-        setNormalizationData,
       }}
     >
       {children}

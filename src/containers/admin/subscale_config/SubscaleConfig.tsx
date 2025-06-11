@@ -4,9 +4,10 @@ import { Database, Home, LoaderCircleIcon } from "lucide-react";
 
 import SubscaleConfigCard from "./SubscaleConfigCard";
 import ErrorMessage from "../../../components/ErrorMessage";
+import Button from "../../../components/Button";
 
 import { useConfigContext } from "../../../context/ConfigProvider";
-import Button from "../../../components/Button";
+
 import { getStepStatus } from "../../../utils/stepStatus";
 
 const SubscaleConfig = () => {
@@ -19,7 +20,6 @@ const SubscaleConfig = () => {
     setLoading,
     error,
     setError,
-    setNormalizationEnabled,
   } = useConfigContext();
 
   const loadSubscaleConfig = async () => {
@@ -50,7 +50,6 @@ const SubscaleConfig = () => {
       setSubscaleConfig(res.data);
       setStep("normalization");
       setStepStatus(getStepStatus("normalization", ["questions", "subscale"]));
-      setNormalizationEnabled(true);
     } catch (err: any) {
       setError(err.message || "Failed to load subscale configuration");
     } finally {
@@ -83,7 +82,7 @@ const SubscaleConfig = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className=" bg-gray-50 flex items-center justify-center">
         <LoaderCircleIcon />
       </div>
     );
@@ -91,7 +90,7 @@ const SubscaleConfig = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className=" bg-gray-50 flex items-center justify-center">
         <ErrorMessage message={error} />
       </div>
     );
@@ -119,7 +118,6 @@ const SubscaleConfig = () => {
           >
             Back to Questions
           </Button>
-
           <Button
             variant="secondary"
             icon={<Database className="w-4 h-4" />}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 interface SelectionFieldProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
@@ -7,7 +7,7 @@ interface SelectionFieldProps
   containerClassName?: string;
 }
 
-const SelectionField: React.FC<SelectionFieldProps> = ({
+const SelectionField: FC<SelectionFieldProps> = ({
   label,
   options,
   containerClassName = "",

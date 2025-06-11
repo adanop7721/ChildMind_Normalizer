@@ -3,6 +3,7 @@ import { Trash2 } from "lucide-react";
 import ButtonIcon from "../../../components/ButtonIcon";
 
 import { useConfigContext } from "../../../context/ConfigProvider";
+
 import type { QuestionOption } from "../../../types";
 
 interface OptionInputProps {

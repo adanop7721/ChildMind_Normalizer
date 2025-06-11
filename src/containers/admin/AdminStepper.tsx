@@ -2,15 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import { Brain, Settings, BarChart3, CheckCircle } from "lucide-react";
 
-import SurveyStructure from "../containers/admin/survey_structure/SurveyStructure";
-import SubscaleConfig from "../containers/admin/subscale_config/SubscaleConfig";
-import NormalizationTable from "../containers/admin/normalization_table/NormalizationTable";
-import StepperIcon from "./StepperIcon";
-import UnsavedDialog from "./UnsavedDialog";
+import SurveyStructure from "./survey_structure/SurveyStructure";
+import SubscaleConfig from "./subscale_config/SubscaleConfig";
+import NormalizationTable from "./normalization_table/NormalizationTable";
+import StepperIcon from "../../components/StepperIcon";
+import UnsavedDialog from "../../components/UnsavedDialog";
 
-import { useConfigContext } from "../context/ConfigProvider";
+import { useConfigContext } from "../../context/ConfigProvider";
 
-import type { AdminStep } from "../types";
+import type { AdminStep } from "../../types";
 
 const colorMap = {
   current: {
@@ -57,7 +57,7 @@ const colorMap = {
 
 const stepKeys: AdminStep[] = ["questions", "subscale", "normalization"];
 
-const Stepper = () => {
+const AdminStepper = () => {
   const {
     survey,
     setSurvey,
@@ -198,4 +198,4 @@ const Stepper = () => {
   );
 };
 
-export default Stepper;
+export default AdminStepper;

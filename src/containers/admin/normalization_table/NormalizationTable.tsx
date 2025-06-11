@@ -1,15 +1,15 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BarChart3, Home, LoaderCircleIcon } from "lucide-react";
 
-// import NormalizationManager from "./NormalizationManager";
+import NormalizationTableCard from "./NormalizationTableCard";
 import Button from "../../../components/Button";
+import ErrorMessage from "../../../components/ErrorMessage";
 
 import { useConfigContext } from "../../../context/ConfigProvider";
-import { useNavigate } from "react-router-dom";
+
 import { getStepStatus } from "../../../utils/stepStatus";
-import { useEffect } from "react";
-import ErrorMessage from "../../../components/ErrorMessage";
-import NormalizationTableCard from "./NormalizationTableCard";
 
 const NormalizationTable = () => {
   const navigate = useNavigate();

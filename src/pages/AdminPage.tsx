@@ -1,5 +1,5 @@
 import AdminHeader from "../containers/admin/AdminHeader";
-import Stepper from "../components/Stepper";
+import AdminStepper from "../containers/admin/AdminStepper";
 
 import ConfigProvider from "../context/ConfigProvider";
 
@@ -8,7 +8,7 @@ const AdminPage = () => {
     <ConfigProvider>
       <div className="min-h-screen bg-gray-50">
         <AdminHeader />
-        <Stepper />
+        <AdminStepper />
       </div>
     </ConfigProvider>
   );

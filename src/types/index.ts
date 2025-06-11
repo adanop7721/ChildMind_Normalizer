@@ -1,5 +1,7 @@
 export type AdminStep = "questions" | "subscale" | "normalization";
 
+export type UserStep = "profile" | "answer" | "result";
+
 export type stepStatus = "current" | "completed" | "enabled" | "disabled";
 
 export interface AdminStepStatus {
@@ -7,6 +9,13 @@ export interface AdminStepStatus {
   subscale: stepStatus;
   normalization: stepStatus;
 }
+
+export interface UserStepStatus {
+  profile: stepStatus;
+  answer: stepStatus;
+  result: stepStatus;
+}
+
 export interface QuestionOption {
   text: string;
   value: number;
@@ -31,4 +40,19 @@ export interface NormalizationData {
   gender: string;
   raw_score: number;
   normalized_score: number;
+}
+
+export interface UserProfile {
+  age: number;
+  gender: string;
+}
+
+export interface Answer {
+  question_id: number;
+  value: number;
+}
+
+export interface Result {
+  raw_score: number;
+  normalized_score: number | boolean;
 }

@@ -9,6 +9,7 @@ import UnsavedDialog from "../../../components/UnsavedDialog";
 import ErrorMessage from "../../../components/ErrorMessage";
 
 import { useConfigContext } from "../../../context/ConfigProvider";
+
 import { getStepStatus } from "../../../utils/stepStatus";
 
 const SurveyStructure = () => {
@@ -127,7 +128,7 @@ const SurveyStructure = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className=" bg-gray-50 flex items-center justify-center">
         <LoaderCircleIcon />
       </div>
     );
@@ -135,7 +136,7 @@ const SurveyStructure = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className=" bg-gray-50 flex items-center justify-center">
         <ErrorMessage message={error} />
       </div>
     );

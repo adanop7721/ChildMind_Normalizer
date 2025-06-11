@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 interface ButtonIconProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -15,7 +15,7 @@ const colorMap: Record<string, string> = {
   gray: "text-gray-600 hover:text-gray-700",
 };
 
-const ButtonIcon: React.FC<ButtonIconProps> = ({
+const ButtonIcon: FC<ButtonIconProps> = ({
   icon,
   color = "default",
   title,

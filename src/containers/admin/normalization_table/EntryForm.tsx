@@ -7,6 +7,7 @@ import SelectionField from "../../../components/SelectionField";
 import Button from "../../../components/Button";
 
 import { useConfigContext } from "../../../context/ConfigProvider";
+
 import type { NormalizationData } from "../../../types";
 
 interface EntryFormProps {

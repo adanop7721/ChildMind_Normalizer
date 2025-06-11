@@ -5,6 +5,7 @@ import OptionInput from "./OptionInput";
 import ButtonIcon from "../../../components/ButtonIcon";
 
 import { useConfigContext } from "../../../context/ConfigProvider";
+
 import type { Question } from "../../../types";
 
 interface QuestionCardProps {
