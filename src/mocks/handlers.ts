@@ -1,5 +1,5 @@
 import { http } from "msw";
-import { questions } from "./data/questions";
+import { questions } from "./data/surveyQuestions";
 import { normalizationData } from "./data/normalizationData";
 import type { NormalizationData, Question } from "../types";
 

@@ -1,3 +1,12 @@
+export type AdminStep = "questions" | "subscale" | "normalization";
+
+export type stepStatus = "current" | "completed" | "disabled";
+
+export interface AdminStepStatus {
+  questions: stepStatus;
+  subscale: stepStatus;
+  normalization: stepStatus;
+}
 export interface QuestionOption {
   text: string;
   value: number;
